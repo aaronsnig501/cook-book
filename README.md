@@ -1,5 +1,18 @@
 # Cook Book
 
+- [Cook Book](#cook-book)
+  - [Purpose](#purpose)
+  - [UX](#ux)
+    - [User Stories](#user-stories)
+      - [First time users](#first-time-users)
+      - [Returning users](#returning-users)
+      - [Site Owner](#site-owner)
+    - [Design](#design)
+      - [Colour](#colour)
+  - [Features](#features)
+    - [Authentication & Authorization](#authentication--authorization)
+    - [Recipes](#recipes)
+
 ## Purpose
 My wife & I love cooking and are always sharing recipes of recipes that we'd love to cook together. The purpose of this project is to allow us to be able to not just share recipes from social media, but also to be able to keep track of the recipes we like and help us to search for the perfect weekend meal to cook.
 
