@@ -112,3 +112,5 @@ user_favourites
 - user_id
 - favourited_items (array of recipe IDs)
 ```
+
+For a more detailed diagram checkout the `docs/database/diagram.pdf`.
