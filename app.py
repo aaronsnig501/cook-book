@@ -9,5 +9,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    """"""
+    """Index view
+
+    Handle the index route.
+
+    Returns:
+    - The `index.html` file
+    """
     return render_template("index.html")
