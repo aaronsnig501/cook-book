@@ -1,5 +1,18 @@
 # Cook Book
 
+- [Cook Book](#cook-book)
+  - [Purpose](#purpose)
+  - [UX](#ux)
+    - [User Stories](#user-stories)
+      - [First time users](#first-time-users)
+      - [Returning users](#returning-users)
+      - [Site Owner](#site-owner)
+    - [Design](#design)
+      - [Colour](#colour)
+  - [Features](#features)
+    - [Authentication & Authorization](#authentication--authorization)
+    - [Recipes](#recipes)
+
 ## Purpose
 My wife & I love cooking and are always sharing recipes of recipes that we'd love to cook together. The purpose of this project is to allow us to be able to not just share recipes from social media, but also to be able to keep track of the recipes we like and help us to search for the perfect weekend meal to cook.
 
@@ -11,7 +24,7 @@ My wife & I love cooking and are always sharing recipes of recipes that we'd lov
 - As a first time user I want to get an understanding of who this site is for and how it can help me
 - As a first time user I want to be able to browse the site to get an idea of what it has to offer
 - As a first time user I want to get access to recipes that I want to make
-- As a first time user I want to find out what benefits I recieve from signing up to the site
+- As a first time user I want to find out what benefits I receive from signing up to the site
 - As a first time user I want to sign up easily
 
 #### Returning users
@@ -25,11 +38,29 @@ My wife & I love cooking and are always sharing recipes of recipes that we'd lov
 - As a returning user I want to edit my user profile
 - As a returning user I want to share recipes
 
-### Site Owner
+#### Site Owner
 - As the site owner I want to have a community of users that enjoy sharing recipes
 - As the site owner I want to have a collection of recipes that I can make myself
   
-## Design
+### Design
 
-### Colour
+#### Colour
 The purpose of this site is to showcase food and how it looks. Food can have many different colours and appearances so the colours used within the site will be neutral whites and grays to allow the images of food to stand out.
+
+
+## Features
+
+### Authentication & Authorization
+- A user can create an account
+- A user can log in
+- A user can logout
+- A user can manage their profile
+
+### Recipes
+- A user can search for recipes
+- A user can filter results based on certain tags
+- A user can view specific recipes
+- A logged in user can create recipes
+- A logged in user can edit/delete recipes
+- A logged in user can like and dislike recipes
+- A logged in user can favourite recipes
