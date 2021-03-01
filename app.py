@@ -1,10 +1,16 @@
 import os
+from os.path import join, dirname
 from flask import Flask, render_template
+from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 
-load_dotenv()
+dotenv_path = join(dirname(__file__), ".env")
+load_dotenv(dotenv_path)
 
 app = Flask(__name__)
+
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+mongo = PyMongo(app)
 
 
 @app.route("/")
@@ -29,78 +35,5 @@ def recipes():
     Returns:
     - The `recipes.html` containing the recipes
     """
-    recipes = [
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-        {
-            "name": "Chicken Curry",
-            "preparation_time": 10,
-            "ingredients": [{"name": "Chicken", "quantity": 400, "measurement": "g"}],
-            "image": "https://www.cookingclassy.com/wp-content/uploads/2018/08/chicken-curry-11-768x1152.jpg"
-        },
-    ]
+    recipes = mongo.db.recipes.find()
     return render_template("recipes.html", recipes=recipes)
