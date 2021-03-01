@@ -1,5 +1,5 @@
 .main-section {
-  margin: 0 12.5%;
+  margin: 0 12.5% !important;
 }
 
 .hero.is-success .tabs.is-boxed li.is-active a {
