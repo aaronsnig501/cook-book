@@ -2,20 +2,26 @@
   <div class="container">
     <div id="navMenu" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item">
+        <a href="{{ url_for('index') }}" class="navbar-item">
           Home
         </a>
-        <a class="navbar-item">
-          Documentation
+        <a  href="{{ url_for('recipes') }}" class="navbar-item">
+          Recipes
         </a>
       </div>
 
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-dark">Github</a>
-            <a class="button is-link">Download</a>
-          </div>
+          {% if not session["user"] %}
+            <div class="buttons">
+              <a href="{{ url_for('register') }}" class="button is-dark">Register</a>
+              <a href="{{ url_for('login') }}" class="button is-link">Login</a>
+            </div>
+          {% else %}
+            <a href="{{ url_for('logout') }}" class="navbar-item">
+              Logout
+            </a>
+          {% endif %}
         </div>
       </div>
     </div>
