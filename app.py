@@ -44,15 +44,33 @@ def register():
 
         hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
-        user = {"username": username, "email": email, "password": str(hashed)}
+        user = {"username": username, "email": email, "password": hashed}
 
         mongo.db.users.insert_one(user)
 
         session["user"] = user["username"]
-        print(session)
-
         return redirect(url_for("recipes"))
     return render_template("accounts/register.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email", None)
+        password = request.form.get("password", None)
+
+        user = mongo.db.users.find_one({"email": email})
+
+        if bcrypt.checkpw(password.encode("utf-8"), user["password"]):
+            session["user"] = user["username"]
+            return redirect(url_for("recipes"))
+    return render_template("accounts/login.html")
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 
 @app.route("/recipes")
