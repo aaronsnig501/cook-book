@@ -1,5 +1,6 @@
 import os
 from os.path import join, dirname
+from datetime import datetime
 import bcrypt
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_pymongo import PyMongo
@@ -85,3 +86,20 @@ def recipes():
     """
     recipes = mongo.db.recipes.find()
     return render_template("recipes.html", recipes=recipes)
+
+
+@app.route("/add-recipe", methods=["GET", "POST"])
+def add_recipe():
+    if request.method == "POST":
+
+        recipe = dict(request.form)
+        recipe["created_by"] = session["user"]
+        recipe["created_at"] = datetime.now()
+        recipe["views"] = 0
+        recipe["likes"] = 0
+
+        mongo.db.recipes.insert_one(recipe)
+
+        return redirect(url_for("recipes"))
+
+    return render_template("recipes/create.html")

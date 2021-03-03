@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Add a new recipe{% endblock %}
+
+{% include 'partials/_navbar.html' %}
+{% block content %}
+<section class="section">
+  <div class="columns">
+    <div class="column is-6 is-offset-3">
+      <h1 class="is-size-2 mb-6">Add a new recipe</h1>
+      <form method="POST" action="{{ url_for('add_recipe') }}">
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control has-icons-right">
+            <input name="name" class="input" type="text" />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control has-icons-right">
+            <input name="description" class="input" type="text" />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Image URL</label>
+          <div class="control has-icons-right">
+            <input name="image" class="input" type="url" />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Prep Time (minutes)</label>
+          <div class="control has-icons-right">
+            <input name="preparationTime" class="input" type="number" />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <label class="label mt-6">Ingredients</label>
+        <hr class="divider" />
+
+        <div id="ingredient-list">
+          <div class="field is-grouped">
+            <p class="control">
+              <input name="ingredient1" placeholder="Ingredient Name" class="input" type="text" value="" />
+            </p>
+            <p class="control">
+              <input name="ingredientQuantity1" placeholder="Quantity" class="input" type="text" value="" />
+            </p>
+            <p class="control">
+              <input name="ingredientMeasurement1" placeholder="Measurement" class="input" type="text" value="" />
+            </p>
+            <p class="control">
+              <button class="input is-primary pl-4 pr-4" id="new-ingredient" data-next="2">
+                <i class="fa fa-plus"></i>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <label class="label mt-6">Steps</label>
+        <hr class="divider" />
+
+        <div id="steps">
+          <div class="field is-grouped">
+            <p class="control is-expanded">
+              <input name="step1" class="input" type="text" />
+            </p>
+            <p class="control">
+              <button class="input is-primary pl-4 pr-4" id="new-step" data-next="2">
+                <i class="fa fa-plus"></i>
+              </button>
+            </p>
+          </div>
+        </div>
+        
+
+        <div class="has-text-centered">
+          <a class="button is-vcentered is-light" href="{{ url_for('recipes') }}">Cancel</a>
+          <button class="button is-vcentered is-primary">Create recipe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
