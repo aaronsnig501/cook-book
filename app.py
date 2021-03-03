@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
+from utils.recipe import parse_ingredients, parse_steps
 
 dotenv_path = join(dirname(__file__), ".env")
 load_dotenv(dotenv_path)
@@ -104,8 +105,9 @@ def recipe(id):
 @app.route("/add-recipe", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "POST":
-
         recipe = dict(request.form)
+        recipe["ingredients"] = parse_ingredients(recipe)
+        recipe["steps"] = parse_steps(recipe)
         recipe["created_by"] = session["user"]
         recipe["created_at"] = datetime.now()
         recipe["views"] = 0
