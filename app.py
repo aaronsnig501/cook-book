@@ -85,7 +85,7 @@ def recipes():
     - The `recipes.html` containing the recipes
     """
     recipes = mongo.db.recipes.find()
-    return render_template("recipes.html", recipes=recipes)
+    return render_template("recipes/list.html", recipes=recipes)
 
 
 @app.route("/add-recipe", methods=["GET", "POST"])
@@ -101,5 +101,4 @@ def add_recipe():
         mongo.db.recipes.insert_one(recipe)
 
         return redirect(url_for("recipes"))
-
     return render_template("recipes/create.html")
