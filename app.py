@@ -74,6 +74,12 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route("/profile")
+def profile():
+    recipes = mongo.db.recipes.find({"created_by": session["user"]})
+    return render_template("accounts/profile.html", recipes=recipes)
+
+
 @app.route("/recipes")
 def recipes():
     """Recipe view
