@@ -28,7 +28,12 @@
               <br>
               <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
             </div>
+
+            
           </div>
+          <footer class="card-footer">
+            <a href="{{ url_for('recipe', id=recipe._id) }}" class="card-footer-item">View</a>
+          </footer>
         </div>
       </div>
     {% endfor %}

@@ -4,6 +4,7 @@ from datetime import datetime
 import bcrypt
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 from dotenv import load_dotenv
 
 dotenv_path = join(dirname(__file__), ".env")
@@ -92,6 +93,12 @@ def recipes():
     """
     recipes = mongo.db.recipes.find()
     return render_template("recipes/list.html", recipes=recipes)
+
+
+@app.route("/recipe/<id>")
+def recipe(id):
+    recipe = mongo.db.recipes.find_one({"_id": ObjectId(id)})
+    return render_template("recipes/details.html", recipe=recipe)
 
 
 @app.route("/add-recipe", methods=["GET", "POST"])

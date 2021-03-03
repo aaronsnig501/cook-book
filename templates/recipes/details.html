@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% include 'partials/_navbar.html' %}
+{% block content %}
+<section class="section">
+  <div class="columns">
+    <div class="column is-3 is-offset-2">
+      <img src="{{ recipe.image }}" class="recipe-image" />
+    </div>
+    <div class="column is-5 has-text-left">
+      <h1 class="is-size-1">{{ recipe.name }}</h1>
+      <p class="mb-6 is-size-5">By: {{ recipe.created_by }}</p>
+      <p class="mb-4 is-size-6">Prep time: {{ recipe.preparationTime }} minutes</p>
+      <p>{{ recipe.description }}</p>
+      
+      <ul>
+      {% for ingredient in recipe.ingredients %}
+        <li>{{ ingredient.name }} ({{ ingredient.quantity}} {{ ingredient.measurement }})</li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}
