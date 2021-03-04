@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit {{ recipe.name }}{% endblock %}
+
+{% include 'partials/_navbar.html' %}
+{% block content %}
+<section class="section">
+  <div class="columns">
+    <div class="column is-6 is-offset-3">
+      <h1 class="is-size-2 mb-6">Edit {{ recipe.name }}</h1>
+      <form method="POST" action="{{ url_for('edit_recipe', id=recipe._id) }}">
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control has-icons-right">
+            <input name="name" class="input" type="text" value="{{ recipe.name }}" />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control has-icons-right">
+            <input name="description" class="input" type="text" value={{ recipe.description }} />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Image URL</label>
+          <div class="control has-icons-right">
+            <input name="image" class="input" type="url" value={{ recipe.image }} />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Prep Time (minutes)</label>
+          <div class="control has-icons-right">
+            <input name="preparationTime" class="input" type="number" value={{ recipe.preparationTime }} />
+            <span class="icon is-small is-right">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+        </div>
+
+        <label class="label mt-6">Ingredients</label>
+        <hr class="divider" />
+
+        <div id="ingredient-list">
+          {% for ingredient in recipe.ingredients %}
+          <div class="field is-grouped">
+            <p class="control">
+              <input name="ingredient{{ loop.index }}" placeholder="Ingredient Name" class="input" type="text" value="{{ ingredient.name }}" />
+            </p>
+            <p class="control">
+              <input name="ingredientQuantity{{ loop.index }}" placeholder="Quantity" class="input" type="text" value="{{ ingredient.quantity }}" />
+            </p>
+            <p class="control">
+              <input name="ingredientMeasurement{{ loop.index }}" placeholder="Measurement" class="input" type="text" value="{{ ingredient.measurement }}" />
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+
+        <label class="label mt-6">Steps</label>
+        <hr class="divider" />
+
+        <div id="steps">
+          {% for step in recipe.steps %}
+          <div class="field is-grouped">
+            <p class="control is-expanded">
+              <input name="step{{ loop.index }}" class="input" type="text" value="{{ step }}" />
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="has-text-centered">
+          <a class="button is-vcentered is-light" href="{{ url_for('recipes') }}">Cancel</a>
+          <button class="button is-vcentered is-primary">Update recipe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

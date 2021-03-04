@@ -180,6 +180,42 @@ def add_recipe():
     return render_template("recipes/create.html")
 
 
+@app.route("/edit-recipe/<id>", methods=["GET", "POST"])
+def edit_recipe(id):
+    """Edit recipe
+
+    Get the recipe to be updated to provide the default data in the form. If method
+    is POST, parse the data and commit the updated data to the database.
+
+    Returns:
+    - GET: Render `edit.html`
+    - POST: Redirect to `/recipes`
+    """
+    existing_recipe = mongo.db.recipes.find_one({"_id": ObjectId(id)})
+
+    if request.method == "POST":
+        recipe = dict(request.form)
+        recipe["ingredients"], filtered_ingredients = parse_ingredients(recipe)
+        recipe["steps"], filtered_steps = parse_steps(recipe)
+        recipe["created_by"] = session["user"]
+        recipe["created_at"] = existing_recipe.created_at
+        recipe["views"] = existing_recipe.views
+        recipe["likes"] = existing_recipe.likes
+
+        for key, _ in filtered_ingredients.items():
+            if key in recipe:
+                del recipe[key]
+
+        for key, _ in filtered_steps.items():
+            if key in recipe:
+                del recipe[key]
+
+        mongo.db.recipes.update({"_id": ObjectId(id)}, recipe)
+        return redirect(url_for("recipes"))
+
+    return render_template("recipes/edit.html", recipe=existing_recipe)
+
+
 @app.route("/delete-recipe/<id>")
 def delete_recipe(id):
     """Delete recipe
