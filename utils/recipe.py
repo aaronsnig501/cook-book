@@ -1,4 +1,24 @@
 def parse_ingredients(recipe):
+    """Parse ingredients
+
+    The ingredients come in from the form as normal key value pairs. This needs to be
+    changed so that the ingredients can be stored as the following data structure.
+
+    [
+        {
+            name: "Chicken",
+            quantity: "400",
+            measurement: "grams"
+        }
+    ]
+
+    Args:
+        recipe (dict): The recipe form data
+
+    Returns:
+        list<dict>: The ingredients in the required format
+        dict: The dict of all of the ingredients
+    """
     ingredients = []
     group_counter = 1
     counter = 0
@@ -26,14 +46,28 @@ def parse_ingredients(recipe):
 
 
 def parse_steps(recipe):
+    """Parse steps
+
+    The steps come in from the form as normal key value pairs. This needs to be
+    changed so that the ingredients can be stored as the following data structure.
+
+    [
+        "Dice chicken",
+        "Cook chicken until brown"
+    ]
+
+    Args:
+        recipe (dict): The recipe form data
+
+    Returns:
+        list<str>: The steps in the required format
+        dict: The dict of all of the steps
+    """
     steps = []
 
-    filtered_dict = {k: v for k, v in recipe.items() if "ingredient" in k}
-    step = {}
+    filtered_dict = {k: v for k, v in recipe.items() if "step" in k}
 
     for key, value in filtered_dict.items():
-        step[key] = value
-
-        steps.append(step)
+        steps.append(value)
 
     return steps, filtered_dict
