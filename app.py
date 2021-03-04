@@ -198,9 +198,9 @@ def edit_recipe(id):
         recipe["ingredients"], filtered_ingredients = parse_ingredients(recipe)
         recipe["steps"], filtered_steps = parse_steps(recipe)
         recipe["created_by"] = session["user"]
-        recipe["created_at"] = existing_recipe.created_at
-        recipe["views"] = existing_recipe.views
-        recipe["likes"] = existing_recipe.likes
+        recipe["created_at"] = existing_recipe["created_at"]
+        recipe["views"] = existing_recipe["views"]
+        recipe["likes"] = existing_recipe["likes"]
 
         for key, _ in filtered_ingredients.items():
             if key in recipe:
