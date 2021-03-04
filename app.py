@@ -35,10 +35,15 @@ def index():
 def register():
     """Register view
 
-    Handle the register view
+    Handle the register view.
+
+    If the request is a POST, the form will be parsed and a password will be generated
+    using `bcrypt`. That user will be added to the database and added to the session.
+    The user will then be redirected to `/recipes`
 
     Returns:
-    - The `register.html` file
+    - GET: The `register.html` file
+    - POST: Redirects to `/recipes`
     """
     if request.method == "POST":
         username = request.form.get("username", None)
@@ -58,6 +63,18 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """Login view
+
+    Handles the login view.
+
+    If the request is a POST, the form will be parsed and `bcrypt` will check that the
+    password matches the user's password. If so, the user will be added to the session
+    and redirected to `/recipes`
+
+    Returns:
+    - GET: The `login.html` file
+    - POST: Redirects to `/recipes`
+    """
     if request.method == "POST":
         email = request.form.get("email", None)
         password = request.form.get("password", None)
@@ -72,21 +89,36 @@ def login():
 
 @app.route("/logout")
 def logout():
+    """Logout view
+
+    Clears the session and redirects the user to the login page
+
+    Returns:
+    - Redirect to `/login`
+    """
     session.clear()
     return redirect(url_for("login"))
 
 
 @app.route("/profile")
 def profile():
+    """Profile view
+
+    Get all of the currently logged in user's recipes and return them along with the
+    `profile.html`
+
+    Returns:
+    - Renders the `profile.html` file with the user's recipes
+    """
     recipes = mongo.db.recipes.find({"created_by": session["user"]})
     return render_template("accounts/profile.html", recipes=recipes)
 
 
 @app.route("/recipes")
 def recipes():
-    """Recipe view
+    """Recipes view
 
-    Handle the recipe route. This will get a list of the recipes to present to
+    Handle the recipes route. This will get a list of the recipes to present to
     users.
 
     Returns:
@@ -98,12 +130,29 @@ def recipes():
 
 @app.route("/recipe/<id>")
 def recipe(id):
+    """Recipe
+
+    Gets an individual recipe based on the ID of the recipe that the user click on
+    and return it along with the `details.html` file
+
+    Returns:
+    - Renders the `details.html` with the recipe data
+    """
     recipe = mongo.db.recipes.find_one({"_id": ObjectId(id)})
     return render_template("recipes/details.html", recipe=recipe)
 
 
 @app.route("/add-recipe", methods=["GET", "POST"])
 def add_recipe():
+    """Add recipe
+
+    Renders the `create.html` file if request is a GET, and parses the form data if
+    method is a POST. This will insert the new recipe into the database.
+
+    Returns:
+    - GET: Renders the `create.html` page
+    - POST: Redirect to `/recipes`
+    """
     if request.method == "POST":
         recipe = dict(request.form)
         recipe["ingredients"], filtered_ingredients = parse_ingredients(recipe)
@@ -129,5 +178,12 @@ def add_recipe():
 
 @app.route("/delete-recipe/<id>")
 def delete_recipe(id):
+    """Delete recipe
+
+    Delete the recipe with the provided ID.
+
+    Returns:
+    - Redirects to `/recipes`
+    """
     mongo.db.recipes.delete_one({"_id": ObjectId(id)})
     return redirect(url_for("recipes"))
