@@ -125,3 +125,9 @@ def add_recipe():
 
         return redirect(url_for("recipes"))
     return render_template("recipes/create.html")
+
+
+@app.route("/delete-recipe/<id>")
+def delete_recipe(id):
+    mongo.db.recipes.delete_one({"_id": ObjectId(id)})
+    return redirect(url_for("recipes"))
