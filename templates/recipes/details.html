@@ -10,16 +10,39 @@
       <img src="{{ recipe.image }}" class="recipe-image" />
     </div>
     <div class="column is-5 has-text-left">
-      <h1 class="is-size-1">{{ recipe.name }}</h1>
-      <p class="mb-6 is-size-5">By: {{ recipe.created_by }}</p>
-      <p class="mb-4 is-size-6">Prep time: {{ recipe.preparationTime }} minutes</p>
-      <p>{{ recipe.description }}</p>
-      
-      <ul>
-      {% for ingredient in recipe.ingredients %}
-        <li>{{ ingredient.name }} ({{ ingredient.quantity}} {{ ingredient.measurement }})</li>
+      <h1 class="is-size-2">{{ recipe.name }}</h1>
+      <p class="mb-4 is-size-5">
+        <span class="ml-1">By: {{ recipe.created_by }}</span>
+        <span class="ml-6 is-size-6"><i class="fa fa-clock-o mr-1"></i>{{ recipe.preparationTime }} minutes</span>
+      </p>
+      <p class="ml-2">{{ recipe.description }}</p>
+
+      <div class="columns">
+        <ul class="column">
+          <h2 class="is-size-4 mb-3">Ingredients</h2>
+          {% for ingredient in recipe.ingredients[:recipe.ingredients|length // 2] %}
+            <li>{{ ingredient.quantity}} {% if ingredient.measurement %}{{ ingredient.measurement }} of {% endif %} {{ ingredient.name }}</li>
+          {% endfor %}
+        </ul>
+
+        <ul class="column mt-6">
+          {% for ingredient in recipe.ingredients[recipe.ingredients|length // 2:] %}
+            <li>{{ ingredient.quantity}} {% if ingredient.measurement %}{{ ingredient.measurement }} of {% endif %} {{ ingredient.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column is-offset-2 is-8">
+      <h2 class="is-size-3">Directions</h2>
+
+      <ol>
+      {% for step in recipe.steps %}
+        <li>{{ step }}</li>
       {% endfor %}
-      </ul>
+      </ol>
     </div>
   </div>
 </section>
