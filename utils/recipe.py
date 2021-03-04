@@ -7,7 +7,6 @@ def parse_ingredients(recipe):
     ingredient = {}
 
     for key, value in filtered_dict.items():
-        ingredient_number = str(key[-1])
         if key == f"ingredient{group_counter}":
             ingredient["name"] = value
 
@@ -23,7 +22,7 @@ def parse_ingredients(recipe):
             ingredient = {}
             group_counter += 1
 
-    return ingredients
+    return ingredients, filtered_dict
 
 
 def parse_steps(recipe):
@@ -37,4 +36,4 @@ def parse_steps(recipe):
 
         steps.append(step)
 
-    return steps
+    return steps, filtered_dict

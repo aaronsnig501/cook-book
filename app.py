@@ -106,12 +106,20 @@ def recipe(id):
 def add_recipe():
     if request.method == "POST":
         recipe = dict(request.form)
-        recipe["ingredients"] = parse_ingredients(recipe)
-        recipe["steps"] = parse_steps(recipe)
+        recipe["ingredients"], filtered_ingredients = parse_ingredients(recipe)
+        recipe["steps"], filtered_steps = parse_steps(recipe)
         recipe["created_by"] = session["user"]
         recipe["created_at"] = datetime.now()
         recipe["views"] = 0
         recipe["likes"] = 0
+
+        for key, _ in filtered_ingredients.items():
+            if key in recipe:
+                del recipe[key]
+
+        for key, _ in filtered_steps.items():
+            if key in recipe:
+                del recipe[key]
 
         mongo.db.recipes.insert_one(recipe)
 
