@@ -133,12 +133,16 @@ def recipe(id):
     """Recipe
 
     Gets an individual recipe based on the ID of the recipe that the user click on
-    and return it along with the `details.html` file
+    and return it along with the `details.html` file. In addition to rendering the item,
+    the recipes number of views is also increased by one
 
     Returns:
     - Renders the `details.html` with the recipe data
     """
     recipe = mongo.db.recipes.find_one({"_id": ObjectId(id)})
+    mongo.db.recipes.update(
+        {"_id": ObjectId(id)}, {"$set": {"views": recipe["views"] + 1}}
+    )
     return render_template("recipes/details.html", recipe=recipe)
 
 
