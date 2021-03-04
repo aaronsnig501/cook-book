@@ -2,8 +2,16 @@
   margin: 0 12.5% !important;
 }
 
+.hero {
+  background-image: url(../images/background.jpg);
+  background-size: cover;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .hero.is-success .tabs.is-boxed li.is-active a {
-  color: #48c774 !important;
+  color: #000 !important;
 }
 
 .interactive-bg {
