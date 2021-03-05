@@ -10,12 +10,18 @@
 
   <div class="hero-body">
     <div class="container has-text-centered">
-      <p class="title">
-        Title
-      </p>
-      <p class="subtitle">
-        Subtitle
-      </p>
+      <form method="POST" action="{{ url_for('search') }}">
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <input class="input is-large" name="query" type="text" placeholder="Find a recipe" />
+          </div>
+          <div class="control">
+            <button class="button is-info is-large">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 

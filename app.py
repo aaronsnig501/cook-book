@@ -17,6 +17,7 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 mongo = PyMongo(app)
+mongo.db.recipes.create_index("title")
 
 
 @app.route("/")
@@ -227,3 +228,19 @@ def delete_recipe(id):
     """
     mongo.db.recipes.delete_one({"_id": ObjectId(id)})
     return redirect(url_for("recipes"))
+
+
+@app.route("/search", methods=["POST"])
+def search():
+    """Search view
+
+    Handles the search request. The index on Mongo is set up as a text index across the
+    name, description, ingredients and steps fields. Any text provided by the search form
+    will check those fields for any matching text and return the results
+
+    Returns:
+        Renders the `recipes/list.html` template with the search results
+    """
+    query = request.form.get("query", None)
+    recipes = mongo.db.recipes.find({"$text": {"$search": query}})
+    return render_template("recipes/list.html", recipes=recipes)
