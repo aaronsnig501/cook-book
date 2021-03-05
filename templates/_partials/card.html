@@ -1,0 +1,31 @@
+<div class="column is-4">
+  <div class="card">
+    <div class="card-image">
+      <figure class="image is-5by4">
+        <img src="{{ recipe.image }}" alt="Placeholder image">
+      </figure>
+    </div>
+    <div class="card-content">
+      <div class="media">
+        <div class="media-content">
+          <p class="title is-4">{{ recipe.name }}</p>
+          <p class="subtitle is-6">{{ recipe.created_by }}</p>
+        </div>
+      </div>
+  
+      <div class="content">
+        {{ recipe.description }}
+        <br>
+        <br>
+        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+      </div>
+    </div>
+    <footer class="card-footer">
+      <a href="{{ url_for('recipe', id=recipe._id) }}" class="card-footer-item">View</a>
+      {% if recipe.created_by == session["user"] %}
+      <a href="{{ url_for('edit_recipe', id=recipe._id) }}" class="card-footer-item">Edit</a>
+      <a href="{{ url_for('delete_recipe', id=recipe._id) }}" class="card-footer-item">Delete</a>
+      {% endif %}
+    </footer>
+  </div>
+</div>

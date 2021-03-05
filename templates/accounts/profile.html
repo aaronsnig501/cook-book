@@ -3,35 +3,12 @@
 {% block title %}{{ session["user"] }}'s recipes{% endblock %}
 
 {% block content %}
-{% include 'partials/_navbar.html' %}
+{% include '_partials/navbar.html' %}
 <section class="section">
   <h1 class="is-size-2 has-text-centered mb-6">Welcome {{ session["user"] }}</h1>
   <div class="columns is-multiline main-section">
     {% for recipe in recipes %}
-      <div class="column is-4">
-        <div class="card">
-          <div class="card-image">
-            <figure class="image is-5by4">
-              <img src="{{ recipe.image }}" alt="Placeholder image">
-            </figure>
-          </div>
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="title is-4">{{ recipe.name }}</p>
-                <p class="subtitle is-6">{{ recipe.created_by }}</p>
-              </div>
-            </div>
-        
-            <div class="content">
-              {{ recipe.description }}
-              <br>
-              <br>
-              <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-            </div>
-          </div>
-        </div>
-      </div>
+      {% include '_partials/card.html' %}
     {% endfor %}
   </div>
 </section>
