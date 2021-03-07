@@ -9,6 +9,8 @@
   <div class="columns is-multiline main-section">
     {% for recipe in recipes %}
       {% include '_partials/card.html' %}
+    {% else %}
+      <p>Looks like you haven't created any recipes yet. Why not <a href="{{ url_for('add_recipe') }}">create one</a>?</p>
     {% endfor %}
   </div>
 </section>

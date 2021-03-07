@@ -8,6 +8,8 @@
   <div class="columns is-multiline main-section">
     {% for recipe in recipes %}
       {% include '_partials/card.html' %}
+    {% else %}
+      <p>We couldn't find any results. Please try again.</p>
     {% endfor %}
   </div>
 </section>
