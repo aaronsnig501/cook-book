@@ -7,6 +7,7 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 from utils.recipe import parse_ingredients, parse_steps
+from utils.decorators import requires_owner
 
 dotenv_path = join(dirname(__file__), ".env")
 load_dotenv(dotenv_path)
@@ -17,7 +18,6 @@ app.secret_key = os.environ.get("SECRET_KEY")
 
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 mongo = PyMongo(app)
-mongo.db.recipes.create_index("title")
 
 
 @app.route("/")
@@ -182,6 +182,7 @@ def add_recipe():
 
 
 @app.route("/edit-recipe/<id>", methods=["GET", "POST"])
+@requires_owner(mongo)
 def edit_recipe(id):
     """Edit recipe
 
@@ -218,6 +219,7 @@ def edit_recipe(id):
 
 
 @app.route("/delete-recipe/<id>")
+@requires_owner(mongo)
 def delete_recipe(id):
     """Delete recipe
 
