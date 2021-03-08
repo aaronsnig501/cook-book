@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Oops! Not found!{% endblock %}
+
+{% include '_partials/navbar.html' %}
+{% block content %}
+<section class="section">
+  <div class="columns">
+    <div class="column has-text-centered">
+      <h1 class="is-size-2 mt-6">Oops!</h1>
+      <p class="mt-4">Looks like we couldn't find what you were looking for.</p>
+      <p class="mt-4"><a href="{{ url_for('recipes') }}">Click here to go back.</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

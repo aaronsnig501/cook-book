@@ -20,6 +20,42 @@ app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 mongo = PyMongo(app)
 
 
+@app.errorhandler(403)
+def forbidden(e):
+    """Forbidden handler
+
+    Render `403` template to users if they try to modify recipes they don't own
+
+    Returns:
+        403 template
+    """
+    return render_template("errors/403.html"), 403
+
+
+@app.errorhandler(404)
+def not_found(e):
+    """Resource not found handler
+
+    Render `404` template to users if they try to access a resource that doesn't exist
+
+    Returns:
+        404 template
+    """
+    return render_template("errors/404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_error(e):
+    """Resource not found handler
+
+    Render `500` template to users if an unhandled error causes an internal server error
+
+    Returns:
+        500 template
+    """
+    return render_template("errors/500.html"), 500
+
+
 @app.route("/")
 def index():
     """Index view
