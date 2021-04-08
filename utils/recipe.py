@@ -48,7 +48,7 @@ def _parse_ingredients(recipe):
             ingredient = {}
             group_counter += 1
 
-    return ingredients, filtered_dict
+    return ingredients
 
 
 def _parse_steps(recipe):
@@ -77,10 +77,31 @@ def _parse_steps(recipe):
         if value:
             steps.append(value)
 
-    return steps, filtered_dict
+    return steps
 
 
-def recipe_parser(recipe, user):
+def _strip_excess_data(recipe):
+    """Strip excess data
+
+    Remove any references to the old data structure from the initial form data. This
+    will be old `ingredients` and `steps` keys
+
+    Args:
+        recipe (dict): The recipe to remove the stale data from
+
+    Returns:
+        dict: The pruned dict
+    """
+    for key in list(recipe.keys()):
+        if key == "ingredients" or key == "steps":
+            continue
+        elif "ingredient" in key or "step" in key:
+            del recipe[key]
+
+    return recipe
+
+
+def recipe_parser(form_data, user):
     """Recipe parser
 
     Bundles up the information retrieved from the request, parses it and
@@ -93,19 +114,21 @@ def recipe_parser(recipe, user):
     Returns:
         dict: The newly generated recipe data structure
     """
-    recipe["ingredients"], filtered_ingredients = _parse_ingredients(recipe)
-    recipe["steps"], filtered_steps = _parse_steps(recipe)
+
+    # The way the ingredients and steps data is structured in the form data is not the
+    # structure required for the database so additional processing is required. The
+    # `ingredients` and `steps` lists will be created and added to the recipe
+    recipe["ingredients"] = _parse_ingredients(recipe)
+    recipe["steps"] = _parse_steps(recipe)
+
+    # Additional fields are created to store additional information about the recipe
     recipe["created_by"] = user
     recipe["created_at"] = datetime.now()
     recipe["views"] = 0
     recipe["likes"] = 0
 
-    for key, _ in filtered_ingredients.items():
-        if key in recipe:
-            del recipe[key]
-
-    for key, _ in filtered_steps.items():
-        if key in recipe:
-            del recipe[key]
+    # As the structure of the ingredients have changed, the initial data contained
+    # in the form needs to be removed
+    recipe = _strip_excess_data(recipe)
 
     return recipe
