@@ -30,7 +30,10 @@ def _parse_ingredients(recipe):
     ingredient = {}
 
     for key, value in filtered_dict.items():
-        if key == f"ingredient{group_counter}":
+        if not value:
+            continue
+
+        elif key == f"ingredient{group_counter}":
             ingredient["name"] = value
 
         elif key == f"ingredientQuantity{group_counter}":
@@ -71,7 +74,8 @@ def _parse_steps(recipe):
     filtered_dict = {k: v for k, v in recipe.items() if "step" in k}
 
     for key, value in filtered_dict.items():
-        steps.append(value)
+        if value:
+            steps.append(value)
 
     return steps, filtered_dict
 
