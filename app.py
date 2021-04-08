@@ -1,12 +1,11 @@
 import os
 from os.path import join, dirname
-from datetime import datetime
 import bcrypt
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
-from utils.recipe import parse_ingredients, parse_steps
+from utils.recipe import recipe_parser
 from utils.decorators import requires_owner
 
 dotenv_path = join(dirname(__file__), ".env")
@@ -195,21 +194,7 @@ def add_recipe():
     - POST: Redirect to `/recipes`
     """
     if request.method == "POST":
-        recipe = dict(request.form)
-        recipe["ingredients"], filtered_ingredients = parse_ingredients(recipe)
-        recipe["steps"], filtered_steps = parse_steps(recipe)
-        recipe["created_by"] = session["user"]
-        recipe["created_at"] = datetime.now()
-        recipe["views"] = 0
-        recipe["likes"] = 0
-
-        for key, _ in filtered_ingredients.items():
-            if key in recipe:
-                del recipe[key]
-
-        for key, _ in filtered_steps.items():
-            if key in recipe:
-                del recipe[key]
+        recipe = recipe_parser(dict(request.form), session["user"])
 
         mongo.db.recipes.insert_one(recipe)
 
@@ -232,22 +217,7 @@ def edit_recipe(id):
     existing_recipe = mongo.db.recipes.find_one({"_id": ObjectId(id)})
 
     if request.method == "POST":
-        recipe = dict(request.form)
-        recipe["ingredients"], filtered_ingredients = parse_ingredients(recipe)
-        recipe["steps"], filtered_steps = parse_steps(recipe)
-        recipe["created_by"] = session["user"]
-        recipe["created_at"] = existing_recipe["created_at"]
-        recipe["views"] = existing_recipe["views"]
-        recipe["likes"] = existing_recipe["likes"]
-
-        for key, _ in filtered_ingredients.items():
-            if key in recipe:
-                del recipe[key]
-
-        for key, _ in filtered_steps.items():
-            if key in recipe:
-                del recipe[key]
-
+        recipe = recipe_parser(dict(request.form), session["user"])
         mongo.db.recipes.update({"_id": ObjectId(id)}, recipe)
         return redirect(url_for("recipes"))
 

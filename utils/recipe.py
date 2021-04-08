@@ -1,4 +1,7 @@
-def parse_ingredients(recipe):
+from datetime import datetime
+
+
+def _parse_ingredients(recipe):
     """Parse ingredients
 
     The ingredients come in from the form as normal key value pairs. This needs to be
@@ -45,7 +48,7 @@ def parse_ingredients(recipe):
     return ingredients, filtered_dict
 
 
-def parse_steps(recipe):
+def _parse_steps(recipe):
     """Parse steps
 
     The steps come in from the form as normal key value pairs. This needs to be
@@ -71,3 +74,34 @@ def parse_steps(recipe):
         steps.append(value)
 
     return steps, filtered_dict
+
+
+def recipe_parser(recipe, user):
+    """Recipe parser
+
+    Bundles up the information retrieved from the request, parses it and
+    strips away the excess information.
+
+    Args:
+        recipe (dict): The recipe information provided by the HTML form
+        user (str): The username of the currently logged in user
+
+    Returns:
+        dict: The newly generated recipe data structure
+    """
+    recipe["ingredients"], filtered_ingredients = _parse_ingredients(recipe)
+    recipe["steps"], filtered_steps = _parse_steps(recipe)
+    recipe["created_by"] = user
+    recipe["created_at"] = datetime.now()
+    recipe["views"] = 0
+    recipe["likes"] = 0
+
+    for key, _ in filtered_ingredients.items():
+        if key in recipe:
+            del recipe[key]
+
+    for key, _ in filtered_steps.items():
+        if key in recipe:
+            del recipe[key]
+
+    return recipe
